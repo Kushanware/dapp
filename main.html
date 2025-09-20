@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shardeum PayFi Creator Hub</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .shardeum-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-top: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .creator-profile {
+            text-align: center;
+        }
+
+        .creator-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f69550, #e57c34);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin: 0 auto 20px;
+        }
+
+        .creator-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .creator-bio {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: #f69550;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .tip-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .preset-amounts {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .preset-btn {
+            background: rgba(246, 149, 80, 0.1);
+            border: 2px solid #f69550;
+            color: #f69550;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .preset-btn:hover, .preset-btn.active {
+            background: #f69550;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .custom-amount {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="number"] {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            border-color: #f69550;
+            outline: none;
+        }
+
+        .message-box {
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            border-color: #f69550;
+            outline: none;
+        }
+
+        .button {
+            background: linear-gradient(90deg, #f69550, #e57c34);
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(246, 149, 80, 0.4);
+        }
+
+        .button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f69550;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .recent-tips {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tip-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .tip-item:last-child {
+            border-bottom: none;
+        }
+
+        .tip-info {
+            flex: 1;
+        }
+
+        .tip-amount {
+            font-weight: bold;
+            color: #f69550;
+            font-size: 1.1rem;
+        }
+
+        .tip-message {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 5px 0;
+        }
+
+        .tip-meta {
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        .network-status {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .status-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4CAF50;
+            margin-right: 10px;
+        }
+
+        .wallet-info {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            color: white;
+            word-break: break-all;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 5px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .nav-tab.active {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-tab:hover:not(.active) {
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.9);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* P2P Splitting */
+        .recipient-list {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .recipient-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .recipient-item:last-child {
+            border-bottom: none;
+        }
+
+        .recipient-info {
+            flex: 1;
+        }
+
+        .recipient-address {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .recipient-amount {
+            font-weight: bold;
+            color: #f69550;
+        }
+
+        .remove-recipient {
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* Subscription System */
+        .subscription-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .subscription-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .subscription-amount {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .subscription-period {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .next-payment {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        /* Crowdfunding */
+        .campaign-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .campaign-progress {
+            width: 100%;
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            transition: width 0.5s ease;
+        }
+
+        .campaign-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .campaign-stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f69550;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Campus Economy */
+        .campus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .campus-item {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s;
+        }
+
+        .campus-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .campus-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .campus-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .campus-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f69550;
+            margin-bottom: 15px;
+        }
+
+        .buy-button {
+            background: linear-gradient(90deg, #f69550, #e57c34);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+
+        .buy-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Form Enhancements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            border-color: #f69550;
+            outline: none;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-group .form-input {
+            flex: 1;
+        }
+
+        .add-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .add-button:hover {
+            background: #45a049;
+        }
+
+        /* Mobile Responsive Updates */
+        @media (max-width: 768px) {
+            .nav-tab {
+                font-size: 12px;
+                padding: 10px 12px;
+            }
+
+            .campaign-stats {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .campus-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>💸 Shardeum PayFi Hub</h1>
+            <p class="subtitle">Complete Payment Solutions on Shardeum</p>
+            <div class="shardeum-badge">
+                <i class="fas fa-bolt" style="margin-right: 8px;"></i>
+                Fast • Low-Cost • Scalable
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab('tips')">
+                <i class="fas fa-gift"></i> Tips
+            </button>
+            <button class="nav-tab" onclick="switchTab('p2p')">
+                <i class="fas fa-users"></i> Split Bills
+            </button>
+            <button class="nav-tab" onclick="switchTab('subscriptions')">
+                <i class="fas fa-calendar-alt"></i> Subscriptions
+            </button>
+            <button class="nav-tab" onclick="switchTab('crowdfunding')">
+                <i class="fas fa-bullseye"></i> Crowdfunding
+            </button>
+            <button class="nav-tab" onclick="switchTab('campus')">
+                <i class="fas fa-university"></i> Campus
+            </button>
+        </div>
+
+        <!-- Network Status -->
+        <div class="network-status">
+            <div class="status-item">
+                <div style="display: flex; align-items: center;">
+                    <div class="status-indicator"></div>
+                    <strong>Network Status</strong>
+                </div>
+                <span id="networkStatus">Connected to Shardeum</span>
+            </div>
+            <div class="status-item">
+                <span>Gas Fee</span>
+                <span id="gasInfo" style="color: #4CAF50; font-weight: bold;">~$0.001</span>
+            </div>
+            <div class="status-item">
+                <span>Transaction Speed</span>
+                <span style="color: #4CAF50; font-weight: bold;">~2 seconds</span>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalVolume">0</div>
+                <div class="stat-label">Total Volume (SHM)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalTransactions">0</div>
+                <div class="stat-label">Total Transactions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgTransaction">0</div>
+                <div class="stat-label">Avg Transaction (SHM)</div>
+            </div>
+        </div>
+
+        <!-- Tab Contents -->
+        
+        <!-- Tips Tab -->
+        <div id="tips-tab" class="tab-content active">
+            <div class="main-grid">
+                <!-- Creator Profile -->
+                <div class="card creator-profile">
+                    <div class="creator-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="creator-name">Amazing Creator</div>
+                    <div class="creator-bio">
+                        Building the future on Shardeum! Support my work with fast, low-cost tips. 
+                        Every contribution helps me create more amazing content for the community.
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Discord">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Website">
+                            <i class="fas fa-globe"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tip Section -->
+                <div class="card tip-section">
+                    <h3><i class="fas fa-gift" style="margin-right: 10px;"></i>Send a Tip</h3>
+                    
+                    <!-- Wallet Connection -->
+                    <div id="walletSection">
+                        <button class="button" id="connectButton">
+                            <i class="fas fa-wallet" style="margin-right: 8px;"></i>
+                            Connect Wallet
+                        </button>
+                        <div class="wallet-info" id="walletInfo" style="display: none;"></div>
+                    </div>
+
+                    <!-- Tip Interface -->
+                    <div id="tipInterface" style="display: none;">
+                        <!-- Preset Amounts -->
+                        <div class="preset-amounts">
+                            <button class="preset-btn" data-amount="0.1">0.1 SHM</button>
+                            <button class="preset-btn" data-amount="0.5">0.5 SHM</button>
+                            <button class="preset-btn" data-amount="1">1 SHM</button>
+                            <button class="preset-btn" data-amount="5">5 SHM</button>
+                        </div>
+
+                        <!-- Custom Amount -->
+                        <div class="custom-amount">
+                            <input type="number" id="customAmount" placeholder="Custom amount (SHM)" step="0.01" min="0.01">
+                        </div>
+
+                        <!-- Tip Message -->
+                        <div class="message-box">
+                            <textarea id="tipMessage" placeholder="Add a message with your tip (optional)..."></textarea>
+                        </div>
+
+                        <button class="button" id="sendTipButton">
+                            <i class="fas fa-paper-plane" style="margin-right: 8px;"></i>
+                            Send Tip
+                        </button>
+                    </div>
+
+                    <!-- Status -->
+                    <div id="status" style="margin-top: 20px; font-weight: bold; text-align: center; min-height: 24px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- P2P Bill Splitting Tab -->
+        <div id="p2p-tab" class="tab-content">
+            <div class="card">
+                <h3><i class="fas fa-users" style="margin-right: 10px;"></i>Split Bills with Friends</h3>
+                <p style="margin-bottom: 20px; color: #666;">Easily split restaurant bills, group expenses, or shared costs among multiple people.</p>
+                
+                <div class="form-group">
+                    <label class="form-label">Total Bill Amount (SHM)</label>
+                    <input type="number" id="totalBillAmount" class="form-input" placeholder="10.50" step="0.01" min="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Add Recipients</label>
+                    <div class="input-group">
+                        <input type="text" id="recipientAddress" class="form-input" placeholder="0x... or ENS name">
+                        <input type="text" id="recipientName" class="form-input" placeholder="Name (optional)">
+                        <button class="add-button" onclick="addRecipient()">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                </div>
+
+                <div class="recipient-list" id="recipientList">
+                    <div style="text-align: center; color: #999; padding: 20px;">
+                        <i class="fas fa-user-friends" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                        <div>Add recipients to split the bill</div>
+                    </div>
+                </div>
+
+                <button class="button" id="splitBillButton" onclick="splitBill()" disabled>
+                    <i class="fas fa-share-alt" style="margin-right: 8px;"></i>
+                    Split & Send Payments
+                </button>
+
+                <div id="splitStatus" style="margin-top: 20px; font-weight: bold; text-align: center; min-height: 24px;"></div>
+            </div>
+        </div>
+
+        <!-- Subscriptions Tab -->
+        <div id="subscriptions-tab" class="tab-content">
+            <div class="card">
+                <h3><i class="fas fa-calendar-alt" style="margin-right: 10px;"></i>Subscription Payments</h3>
+                <p style="margin-bottom: 20px; color: #666;">Set up recurring payments for services, memberships, or regular support.</p>
+
+                <!-- Active Subscriptions -->
+                <div class="subscription-card">
+                    <div class="subscription-header">
+                        <div>
+                            <div style="font-size: 1.2rem; font-weight: bold;">Premium Creator Support</div>
+                            <div style="opacity: 0.8;">Monthly subscription</div>
+                        </div>
+                        <div class="subscription-amount">2.5 SHM</div>
+                    </div>
+                    <div class="subscription-period">Monthly</div>
+                    <div class="next-payment">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Next Payment:</span>
+                            <span>October 20, 2025</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Create New Subscription -->
+                <div class="form-group">
+                    <label class="form-label">Subscription Amount (SHM)</label>
+                    <input type="number" id="subAmount" class="form-input" placeholder="2.50" step="0.01" min="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Payment Frequency</label>
+                    <select id="subFrequency" class="form-input">
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                        <option value="yearly">Yearly</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Recipient Address</label>
+                    <input type="text" id="subRecipient" class="form-input" placeholder="0x... or ENS name">
+                </div>
+
+                <button class="button" onclick="createSubscription()">
+                    <i class="fas fa-plus" style="margin-right: 8px;"></i>
+                    Create Subscription
+                </button>
+
+                <div id="subStatus" style="margin-top: 20px; font-weight: bold; text-align: center; min-height: 24px;"></div>
+            </div>
+        </div>
+
+        <!-- Crowdfunding Tab -->
+        <div id="crowdfunding-tab" class="tab-content">
+            <div class="campaign-card">
+                <h3 style="margin-bottom: 15px; color: #333;">🚀 Shardeum dApp Development Fund</h3>
+                <p style="margin-bottom: 15px; color: #666;">Help fund the development of innovative dApps on Shardeum. Your contribution makes a difference!</p>
+                
+                <div class="campaign-progress">
+                    <div class="progress-bar" id="campaignProgress" style="width: 65%;"></div>
+                </div>
+                
+                <div class="campaign-stats">
+                    <div class="campaign-stat">
+                        <div class="stat-number" id="campaignRaised">32.5</div>
+                        <div class="stat-label">SHM Raised</div>
+                    </div>
+                    <div class="campaign-stat">
+                        <div class="stat-number" id="campaignGoal">50</div>
+                        <div class="stat-label">SHM Goal</div>
+                    </div>
+                    <div class="campaign-stat">
+                        <div class="stat-number" id="campaignBackers">18</div>
+                        <div class="stat-label">Backers</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <div class="form-group">
+                        <label class="form-label">Contribution Amount (SHM)</label>
+                        <input type="number" id="contributionAmount" class="form-input" placeholder="1.00" step="0.01" min="0.01">
+                    </div>
+
+                    <button class="button" onclick="contributeToCampaign()">
+                        <i class="fas fa-heart" style="margin-right: 8px;"></i>
+                        Back This Project
+                    </button>
+                </div>
+
+                <div id="campaignStatus" style="margin-top: 20px; font-weight: bold; text-align: center; min-height: 24px;"></div>
+            </div>
+        </div>
+
+        <!-- Campus Economy Tab -->
+        <div id="campus-tab" class="tab-content">
+            <div class="card">
+                <h3><i class="fas fa-university" style="margin-right: 10px;"></i>Campus Economy</h3>
+                <p style="margin-bottom: 20px; color: #666;">Buy tickets, coupons, and campus services with fast, low-cost Shardeum transactions.</p>
+                
+                <div class="campus-grid">
+                    <div class="campus-item">
+                        <div class="campus-icon">🎫</div>
+                        <div class="campus-title">Tech Fest Tickets</div>
+                        <div class="campus-price">5.0 SHM</div>
+                        <button class="buy-button" onclick="buyCampusItem('festival-ticket', 5.0)">
+                            Buy Ticket
+                        </button>
+                    </div>
+
+                    <div class="campus-item">
+                        <div class="campus-icon">🍔</div>
+                        <div class="campus-title">Cafeteria Coupon</div>
+                        <div class="campus-price">2.5 SHM</div>
+                        <button class="buy-button" onclick="buyCampusItem('food-coupon', 2.5)">
+                            Buy Coupon
+                        </button>
+                    </div>
+
+                    <div class="campus-item">
+                        <div class="campus-icon">📚</div>
+                        <div class="campus-title">Library Access Pass</div>
+                        <div class="campus-price">1.0 SHM</div>
+                        <button class="buy-button" onclick="buyCampusItem('library-pass', 1.0)">
+                            Buy Pass
+                        </button>
+                    </div>
+
+                    <div class="campus-item">
+                        <div class="campus-icon">🚌</div>
+                        <div class="campus-title">Shuttle Bus Token</div>
+                        <div class="campus-price">0.5 SHM</div>
+                        <button class="buy-button" onclick="buyCampusItem('bus-token', 0.5)">
+                            Buy Token
+                        </button>
+                    </div>
+
+                    <div class="campus-item">
+                        <div class="campus-icon">🎮</div>
+                        <div class="campus-title">Gaming Arena Hours</div>
+                        <div class="campus-price">3.0 SHM</div>
+                        <button class="buy-button" onclick="buyCampusItem('gaming-hours', 3.0)">
+                            Buy Hours
+                        </button>
+                    </div>
+
+                    <div class="campus-item">
+                        <div class="campus-icon">🖨️</div>
+                        <div class="campus-title">Printing Credits</div>
+                        <div class="campus-price">0.2 SHM</div>
+                        <button class="buy-button" onclick="buyCampusItem('print-credits', 0.2)">
+                            Buy Credits
+                        </button>
+                    </div>
+                </div>
+
+                <div id="campusStatus" style="margin-top: 20px; font-weight: bold; text-align: center; min-height: 24px;"></div>
+            </div>
+        </div>
+
+        <!-- Recent Tips -->
+        <div class="recent-tips">
+            <h3 style="margin-bottom: 20px; color: #333;">
+                <i class="fas fa-history" style="margin-right: 10px;"></i>
+                Recent Tips
+                <span id="loadingTips" style="font-size: 14px; color: #f69550; margin-left: 10px;">
+                    <i class="fas fa-spinner fa-spin"></i> Loading...
+                </span>
+            </h3>
+            <div id="recentTipsList">
+                <div id="noTipsMessage" style="text-align: center; color: #999; padding: 40px;">
+                    <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                    <div>No tips yet. Be the first to support this creator!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+
+    <script>
+        // ============== ⚠️ CONTRACT CONFIGURATION ⚠️ ==============
+        // CURRENT SETUP: Using existing TodoList contract with fallback functionality
+        const contractAddress = "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B";
+        
+        // Simple fallback ABI that should work with basic contract functionality
+        const contractABI = [
+            // Basic payable function to receive tips
+            {
+                "inputs": [],
+                "name": "sendTip", 
+                "outputs": [],
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            // Try to get balance
+            {
+                "inputs": [],
+                "name": "getContractBalance",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            // Fallback function
+            {
+                "stateMutability": "payable",
+                "type": "fallback"
+            },
+            // Receive function for direct transfers
+            {
+                "stateMutability": "payable", 
+                "type": "receive"
+            }
+        ];
+        // =======================================================
+
+        let provider;
+        let signer;
+        let contract;
+        let selectedAmount = null;
+        let tipHistory = []; // Store tip history locally
+        let realTimeStats = { totalTips: 0, tipCount: 0, avgTip: 0 }; // Real-time stats
+        let recipients = []; // For P2P bill splitting
+        let subscriptions = []; // For subscription management
+        let campaignData = { raised: 32.5, goal: 50, backers: 18 }; // Crowdfunding data
+
+        // UI Elements
+        const connectButton = document.getElementById('connectButton');
+        const sendTipButton = document.getElementById('sendTipButton');
+        const customAmountInput = document.getElementById('customAmount');
+        const tipMessageInput = document.getElementById('tipMessage');
+        const statusDiv = document.getElementById('status');
+        const walletInfoDiv = document.getElementById('walletInfo');
+        const walletSection = document.getElementById('walletSection');
+        const tipInterface = document.getElementById('tipInterface');
+        
+        // Stats elements (updated to reflect broader scope)
+        const totalVolumeElement = document.getElementById('totalVolume');
+        const totalTransactionsElement = document.getElementById('totalTransactions');
+        const avgTransactionElement = document.getElementById('avgTransaction');
+        const recentTipsList = document.getElementById('recentTipsList');
+
+        // Event listeners
+        connectButton.onclick = connectWallet;
+        sendTipButton.onclick = sendTip;
+
+        // Preset amount buttons
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', () => selectPresetAmount(btn));
+        });
+
+        // Custom amount input
+        customAmountInput.addEventListener('input', () => {
+            selectedAmount = null;
+            document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+        });
+
+        // Initialize app
+        window.addEventListener('load', () => {
+            initializeApp();
+            checkWalletConnection();
+        });
+
+        async function initializeApp() {
+            // Set initial loading state
+            totalVolumeElement.textContent = '...';
+            totalTransactionsElement.textContent = '...';
+            avgTransactionElement.textContent = '...';
+            
+            // Initialize campaign data
+            initializeCampaignData();
+            
+            // Start network monitoring
+            monitorNetwork();
+        }
+
+        function selectPresetAmount(button) {
+            selectedAmount = parseFloat(button.dataset.amount);
+            customAmountInput.value = selectedAmount;
+            
+            // Update button styles
+            document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        }
+
+        async function checkWalletConnection() {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                    if (accounts.length > 0) {
+                        await connectWallet();
+                    }
+                } catch (error) {
+                    console.log('Wallet check error:', error);
+                }
+            }
+        }
+
+        async function connectWallet() {
+            if (typeof window.ethereum === 'undefined') {
+                statusDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Please install MetaMask!';
+                statusDiv.style.color = '#ff4444';
+                return;
+            }
+
+            try {
+                // Show loading
+                connectButton.innerHTML = '<span class="loading"></span> Connecting...';
+                connectButton.disabled = true;
+
+                provider = new ethers.BrowserProvider(window.ethereum);
+                await provider.send("eth_requestAccounts", []);
+                signer = await provider.getSigner();
+                contract = new ethers.Contract(contractAddress, contractABI, signer);
+
+                const userAddress = await signer.getAddress();
+                const balance = await provider.getBalance(userAddress);
+                const balanceInSHM = ethers.formatEther(balance);
+
+                // Update UI
+                walletInfoDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-size: 0.9em; opacity: 0.8;">Connected Wallet</div>
+                            <div>${userAddress.substring(0, 8)}...${userAddress.substring(userAddress.length - 6)}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.9em; opacity: 0.8;">Balance</div>
+                            <div style="font-weight: bold;">${parseFloat(balanceInSHM).toFixed(4)} SHM</div>
+                        </div>
+                    </div>
+                `;
+                walletInfoDiv.style.display = 'block';
+                
+                // Hide connect button and show tip interface
+                connectButton.style.display = 'none';
+                tipInterface.style.display = 'block';
+                
+                statusDiv.innerHTML = '<i class="fas fa-check-circle" style="color: #4CAF50;"></i> Wallet connected successfully!';
+                statusDiv.style.color = '#4CAF50';
+
+                // Update stats
+                await updateContractStats();
+                
+                // Load tip history from contract events
+                await loadTipHistory();
+
+            } catch (error) {
+                console.error("Error connecting wallet:", error);
+                statusDiv.innerHTML = '<i class="fas fa-times-circle"></i> Failed to connect wallet';
+                statusDiv.style.color = '#ff4444';
+                
+                // Reset button
+                connectButton.innerHTML = '<i class="fas fa-wallet"></i> Connect Wallet';
+                connectButton.disabled = false;
+            }
+        }
+
+        async function sendTip() {
+            const amount = customAmountInput.value;
+            const message = tipMessageInput.value || "Thanks for the great work!";
+            
+            if (!amount || isNaN(amount) || amount <= 0) {
+                statusDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Please enter a valid tip amount';
+                statusDiv.style.color = '#ff4444';
+                return;
+            }
+
+            try {
+                // Show loading state
+                sendTipButton.innerHTML = '<span class="loading"></span> Sending Tip...';
+                sendTipButton.disabled = true;
+                statusDiv.innerHTML = '<i class="fas fa-clock"></i> Preparing transaction...';
+                statusDiv.style.color = '#f69550';
+
+                // Convert amount to wei
+                const amountInWei = ethers.parseEther(amount);
+                
+                let tx;
+                
+                try {
+                    // Method 1: Try direct contract call (most compatible)
+                    if (contract && contract.sendTip) {
+                        tx = await contract.sendTip({ value: amountInWei });
+                    } else {
+                        throw new Error("Contract method not available");
+                    }
+                } catch (contractError) {
+                    console.log('Contract method failed, trying direct transfer:', contractError.message);
+                    
+                    // Method 2: Direct transfer to contract address
+                    const txRequest = {
+                        to: contractAddress,
+                        value: amountInWei,
+                        gasLimit: 21000 // Standard gas limit for simple transfer
+                    };
+                    
+                    tx = await signer.sendTransaction(txRequest);
+                }
+                
+                statusDiv.innerHTML = `<i class="fas fa-hourglass-half"></i> Transaction sent! Hash: ${tx.hash.substring(0,10)}...`;
+
+                // Wait for confirmation
+                const receipt = await tx.wait();
+
+                // Success!
+                statusDiv.innerHTML = '<i class="fas fa-check-circle" style="color: #4CAF50;"></i> Tip sent successfully! 🎉';
+                statusDiv.style.color = '#4CAF50';
+
+                // Get the actual address (avoid ENS issues)
+                let tipperAddress;
+                try {
+                    tipperAddress = await signer.getAddress();
+                } catch (addressError) {
+                    console.log('Could not get signer address:', addressError);
+                    tipperAddress = 'Unknown';
+                }
+
+                // Add to tip history and update UI
+                const newTip = {
+                    amount: parseFloat(amount),
+                    tipper: tipperAddress,
+                    timestamp: Date.now(),
+                    txHash: tx.hash,
+                    message: message,
+                    blockNumber: receipt.blockNumber
+                };
+                
+                tipHistory.unshift(newTip); // Add to beginning
+                addTipToUI(newTip);
+
+                // Clear form
+                customAmountInput.value = '';
+                tipMessageInput.value = '';
+                selectedAmount = null;
+                document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+
+                // Update stats immediately
+                realTimeStats.totalTips += parseFloat(amount);
+                realTimeStats.tipCount += 1;
+                realTimeStats.avgTip = realTimeStats.totalTips / realTimeStats.tipCount;
+                
+                updateStatsDisplay();
+
+            } catch (error) {
+                console.error("Tipping failed:", error);
+                let errorMessage = 'Transaction failed';
+                
+                if (error.message.includes('user rejected')) {
+                    errorMessage = 'Transaction cancelled by user';
+                } else if (error.message.includes('insufficient funds')) {
+                    errorMessage = 'Insufficient balance';
+                } else if (error.message.includes('ENS')) {
+                    errorMessage = 'Network configuration issue - tip may still work';
+                } else if (error.reason) {
+                    errorMessage = error.reason;
+                }
+                
+                statusDiv.innerHTML = `<i class="fas fa-times-circle"></i> ${errorMessage}`;
+                statusDiv.style.color = '#ff4444';
+            } finally {
+                // Reset button
+                sendTipButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send Tip';
+                sendTipButton.disabled = false;
+            }
+        }
+
+        async function updateContractStats() {
+            try {
+                if (!contract) {
+                    // If no contract, just use local stats
+                    updateStatsDisplay();
+                    return;
+                }
+                
+                // Since the current contract doesn't have the expected methods,
+                // we'll rely on local stats from actual transactions
+                updateStatsDisplay();
+                
+            } catch (error) {
+                console.log('Stats update error (using local data):', error);
+                updateStatsDisplay(); // Still update display with local data
+            }
+        }
+        
+        function updateStatsDisplay() {
+            totalVolumeElement.textContent = realTimeStats.totalTips.toFixed(3);
+            totalTransactionsElement.textContent = realTimeStats.tipCount;
+            avgTransactionElement.textContent = realTimeStats.avgTip.toFixed(3);
+        }
+
+        // ===================== TAB NAVIGATION =====================
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Add active class to selected nav tab
+            event.target.classList.add('active');
+        }
+
+        // ===================== P2P BILL SPLITTING =====================
+        function addRecipient() {
+            const addressInput = document.getElementById('recipientAddress');
+            const nameInput = document.getElementById('recipientName');
+            const address = addressInput.value.trim();
+            const name = nameInput.value.trim() || 'Unknown';
+
+            if (!address) {
+                showStatus('splitStatus', 'Please enter a recipient address', 'error');
+                return;
+            }
+
+            // Basic validation for Ethereum address
+            if (!address.startsWith('0x') && !address.includes('.eth')) {
+                showStatus('splitStatus', 'Please enter a valid address', 'error');
+                return;
+            }
+
+            // Add to recipients list
+            recipients.push({ address, name, id: Date.now() });
+            updateRecipientList();
+
+            // Clear inputs
+            addressInput.value = '';
+            nameInput.value = '';
+            
+            // Enable split button if we have recipients and total amount
+            const totalAmount = document.getElementById('totalBillAmount').value;
+            document.getElementById('splitBillButton').disabled = !(recipients.length > 0 && totalAmount);
+        }
+
+        function removeRecipient(id) {
+            recipients = recipients.filter(r => r.id !== id);
+            updateRecipientList();
+            
+            const totalAmount = document.getElementById('totalBillAmount').value;
+            document.getElementById('splitBillButton').disabled = !(recipients.length > 0 && totalAmount);
+        }
+
+        function updateRecipientList() {
+            const listElement = document.getElementById('recipientList');
+            const totalAmount = parseFloat(document.getElementById('totalBillAmount').value) || 0;
+            const splitAmount = recipients.length > 0 ? totalAmount / recipients.length : 0;
+
+            if (recipients.length === 0) {
+                listElement.innerHTML = `
+                    <div style="text-align: center; color: #999; padding: 20px;">
+                        <i class="fas fa-user-friends" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                        <div>Add recipients to split the bill</div>
+                    </div>
+                `;
+            } else {
+                listElement.innerHTML = recipients.map(recipient => `
+                    <div class="recipient-item">
+                        <div class="recipient-info">
+                            <div style="font-weight: 600;">${recipient.name}</div>
+                            <div class="recipient-address">${recipient.address}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="recipient-amount">${splitAmount.toFixed(3)} SHM</div>
+                            <button class="remove-recipient" onclick="removeRecipient(${recipient.id})">×</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        async function splitBill() {
+            const totalAmount = parseFloat(document.getElementById('totalBillAmount').value);
+            
+            if (!totalAmount || recipients.length === 0) {
+                showStatus('splitStatus', 'Please enter total amount and add recipients', 'error');
+                return;
+            }
+
+            if (!signer) {
+                showStatus('splitStatus', 'Please connect your wallet first', 'error');
+                return;
+            }
+
+            const splitAmount = totalAmount / recipients.length;
+            const splitAmountWei = ethers.parseEther(splitAmount.toString());
+
+            try {
+                showStatus('splitStatus', 'Sending payments to all recipients...', 'loading');
+
+                for (let i = 0; i < recipients.length; i++) {
+                    const recipient = recipients[i];
+                    const tx = await signer.sendTransaction({
+                        to: recipient.address,
+                        value: splitAmountWei,
+                        gasLimit: 21000
+                    });
+
+                    showStatus('splitStatus', `Payment ${i + 1}/${recipients.length} sent: ${tx.hash.substring(0, 10)}...`, 'loading');
+                    await tx.wait();
+
+                    // Add to transaction history
+                    const newTransaction = {
+                        amount: splitAmount,
+                        recipient: recipient.address,
+                        timestamp: Date.now(),
+                        txHash: tx.hash,
+                        message: `Bill split payment to ${recipient.name}`,
+                        type: 'bill-split'
+                    };
+                    
+                    tipHistory.unshift(newTransaction);
+                    
+                    // Update stats
+                    realTimeStats.totalTips += splitAmount;
+                    realTimeStats.tipCount += 1;
+                    realTimeStats.avgTip = realTimeStats.totalTips / realTimeStats.tipCount;
+                }
+
+                updateStatsDisplay();
+                localStorage.setItem('shardeumTips', JSON.stringify(tipHistory.slice(0, 50)));
+                
+                showStatus('splitStatus', `✅ Successfully sent ${splitAmount.toFixed(3)} SHM to ${recipients.length} recipients!`, 'success');
+                
+                // Reset form
+                document.getElementById('totalBillAmount').value = '';
+                recipients = [];
+                updateRecipientList();
+                document.getElementById('splitBillButton').disabled = true;
+
+            } catch (error) {
+                console.error('Bill splitting failed:', error);
+                showStatus('splitStatus', `Failed to split bill: ${error.message}`, 'error');
+            }
+        }
+
+        // ===================== SUBSCRIPTION SYSTEM =====================
+        function createSubscription() {
+            const amount = document.getElementById('subAmount').value;
+            const frequency = document.getElementById('subFrequency').value;
+            const recipient = document.getElementById('subRecipient').value;
+
+            if (!amount || !recipient) {
+                showStatus('subStatus', 'Please fill in all fields', 'error');
+                return;
+            }
+
+            if (!signer) {
+                showStatus('subStatus', 'Please connect your wallet first', 'error');
+                return;
+            }
+
+            // In a real implementation, this would interact with a subscription contract
+            const subscription = {
+                id: Date.now(),
+                amount: parseFloat(amount),
+                frequency: frequency,
+                recipient: recipient,
+                nextPayment: getNextPaymentDate(frequency),
+                created: Date.now()
+            };
+
+            subscriptions.push(subscription);
+            localStorage.setItem('shardeumSubscriptions', JSON.stringify(subscriptions));
+
+            showStatus('subStatus', `✅ Subscription created! Next payment: ${subscription.nextPayment}`, 'success');
+            
+            // Clear form
+            document.getElementById('subAmount').value = '';
+            document.getElementById('subRecipient').value = '';
+        }
+
+        function getNextPaymentDate(frequency) {
+            const now = new Date();
+            switch(frequency) {
+                case 'weekly':
+                    now.setDate(now.getDate() + 7);
+                    break;
+                case 'monthly':
+                    now.setMonth(now.getMonth() + 1);
+                    break;
+                case 'quarterly':
+                    now.setMonth(now.getMonth() + 3);
+                    break;
+                case 'yearly':
+                    now.setFullYear(now.getFullYear() + 1);
+                    break;
+            }
+            return now.toDateString();
+        }
+
+        // ===================== CROWDFUNDING =====================
+        async function contributeToCampaign() {
+            const amount = parseFloat(document.getElementById('contributionAmount').value);
+            
+            if (!amount) {
+                showStatus('campaignStatus', 'Please enter a contribution amount', 'error');
+                return;
+            }
+
+            if (!signer) {
+                showStatus('campaignStatus', 'Please connect your wallet first', 'error');
+                return;
+            }
+
+            try {
+                showStatus('campaignStatus', 'Processing your contribution...', 'loading');
+
+                const amountWei = ethers.parseEther(amount.toString());
+                const tx = await signer.sendTransaction({
+                    to: contractAddress, // Campaign contract address
+                    value: amountWei,
+                    gasLimit: 21000
+                });
+
+                await tx.wait();
+
+                // Update campaign data
+                campaignData.raised += amount;
+                campaignData.backers += 1;
+                
+                // Update progress bar
+                const progressPercent = (campaignData.raised / campaignData.goal) * 100;
+                document.getElementById('campaignProgress').style.width = Math.min(progressPercent, 100) + '%';
+                document.getElementById('campaignRaised').textContent = campaignData.raised.toFixed(1);
+                document.getElementById('campaignBackers').textContent = campaignData.backers;
+
+                // Add to transaction history
+                const newTransaction = {
+                    amount: amount,
+                    recipient: 'Campaign Fund',
+                    timestamp: Date.now(),
+                    txHash: tx.hash,
+                    message: `Crowdfunding contribution`,
+                    type: 'crowdfunding'
+                };
+                
+                tipHistory.unshift(newTransaction);
+                
+                // Update stats
+                realTimeStats.totalTips += amount;
+                realTimeStats.tipCount += 1;
+                realTimeStats.avgTip = realTimeStats.totalTips / realTimeStats.tipCount;
+                updateStatsDisplay();
+
+                localStorage.setItem('shardeumTips', JSON.stringify(tipHistory.slice(0, 50)));
+                localStorage.setItem('campaignData', JSON.stringify(campaignData));
+
+                showStatus('campaignStatus', `✅ Thank you for contributing ${amount} SHM to the campaign!`, 'success');
+                document.getElementById('contributionAmount').value = '';
+
+            } catch (error) {
+                console.error('Contribution failed:', error);
+                showStatus('campaignStatus', `Contribution failed: ${error.message}`, 'error');
+            }
+        }
+
+        // ===================== CAMPUS ECONOMY =====================
+        async function buyCampusItem(itemId, price) {
+            if (!signer) {
+                showStatus('campusStatus', 'Please connect your wallet first', 'error');
+                return;
+            }
+
+            try {
+                showStatus('campusStatus', `Purchasing ${getItemName(itemId)}...`, 'loading');
+
+                const priceWei = ethers.parseEther(price.toString());
+                const tx = await signer.sendTransaction({
+                    to: contractAddress, // Campus services contract
+                    value: priceWei,
+                    gasLimit: 21000
+                });
+
+                await tx.wait();
+
+                // Add to transaction history
+                const newTransaction = {
+                    amount: price,
+                    recipient: 'Campus Services',
+                    timestamp: Date.now(),
+                    txHash: tx.hash,
+                    message: `Purchased ${getItemName(itemId)}`,
+                    type: 'campus-purchase'
+                };
+                
+                tipHistory.unshift(newTransaction);
+                
+                // Update stats
+                realTimeStats.totalTips += price;
+                realTimeStats.tipCount += 1;
+                realTimeStats.avgTip = realTimeStats.totalTips / realTimeStats.tipCount;
+                updateStatsDisplay();
+
+                localStorage.setItem('shardeumTips', JSON.stringify(tipHistory.slice(0, 50)));
+
+                showStatus('campusStatus', `✅ Successfully purchased ${getItemName(itemId)}!`, 'success');
+
+            } catch (error) {
+                console.error('Purchase failed:', error);
+                showStatus('campusStatus', `Purchase failed: ${error.message}`, 'error');
+            }
+        }
+
+        function getItemName(itemId) {
+            const items = {
+                'festival-ticket': 'Festival Ticket',
+                'food-coupon': 'Food Coupon',
+                'library-pass': 'Library Pass',
+                'bus-token': 'Bus Token',
+                'gaming-hours': 'Gaming Hours',
+                'print-credits': 'Print Credits'
+            };
+            return items[itemId] || 'Campus Item';
+        }
+
+        // ===================== UTILITY FUNCTIONS =====================
+        function showStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = message;
+            
+            switch(type) {
+                case 'success':
+                    element.style.color = '#4CAF50';
+                    break;
+                case 'error':
+                    element.style.color = '#ff4444';
+                    break;
+                case 'loading':
+                    element.style.color = '#f69550';
+                    break;
+                default:
+                    element.style.color = '#333';
+            }
+        }
+
+        // Initialize campaign data from localStorage
+        function initializeCampaignData() {
+            const saved = localStorage.getItem('campaignData');
+            if (saved) {
+                campaignData = JSON.parse(saved);
+                const progressPercent = (campaignData.raised / campaignData.goal) * 100;
+                document.getElementById('campaignProgress').style.width = Math.min(progressPercent, 100) + '%';
+                document.getElementById('campaignRaised').textContent = campaignData.raised.toFixed(1);
+                document.getElementById('campaignBackers').textContent = campaignData.backers;
+            }
+        }
+
+        async function loadTipHistory() {
+            try {
+                if (!contract) return;
+                
+                const loadingElement = document.getElementById('loadingTips');
+                const noTipsMessage = document.getElementById('noTipsMessage');
+                
+                loadingElement.style.display = 'inline-block';
+                
+                // Clear existing tips except "no tips" message
+                const existingTips = recentTipsList.querySelectorAll('.tip-item');
+                existingTips.forEach(tip => tip.remove());
+                
+                tipHistory = []; // Reset tip history
+                
+                // Since the contract doesn't have TipSent events, load from localStorage
+                const savedTips = localStorage.getItem('shardeumTips');
+                if (savedTips) {
+                    try {
+                        const parsedTips = JSON.parse(savedTips);
+                        if (Array.isArray(parsedTips) && parsedTips.length > 0) {
+                            tipHistory = parsedTips;
+                            tipHistory.forEach(tip => addTipToUI(tip));
+                            noTipsMessage.style.display = 'none';
+                            
+                            // Update stats with saved data
+                            realTimeStats.tipCount = tipHistory.length;
+                            realTimeStats.totalTips = tipHistory.reduce((sum, tip) => sum + tip.amount, 0);
+                            realTimeStats.avgTip = realTimeStats.tipCount > 0 ? realTimeStats.totalTips / realTimeStats.tipCount : 0;
+                            updateStatsDisplay();
+                        }
+                    } catch (parseError) {
+                        console.log('Error parsing saved tips:', parseError);
+                        localStorage.removeItem('shardeumTips'); // Clean up corrupted data
+                    }
+                }
+                
+                // If no saved tips, show the empty state
+                if (tipHistory.length === 0) {
+                    noTipsMessage.style.display = 'block';
+                    
+                    // Initialize stats to zero
+                    realTimeStats = { totalTips: 0, tipCount: 0, avgTip: 0 };
+                    updateStatsDisplay();
+                }
+                
+                loadingElement.style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error loading tip history:', error);
+                const loadingElement = document.getElementById('loadingTips');
+                loadingElement.textContent = 'Loaded from storage';
+                setTimeout(() => {
+                    loadingElement.style.display = 'none';
+                }, 2000);
+                
+                // Show empty state on error
+                document.getElementById('noTipsMessage').style.display = 'block';
+                realTimeStats = { totalTips: 0, tipCount: 0, avgTip: 0 };
+                updateStatsDisplay();
+            }
+        }
+
+        function addTipToUI(tipData) {
+            const timeAgo = getTimeAgo(tipData.timestamp);
+            const tipItem = document.createElement('div');
+            tipItem.className = 'tip-item';
+            
+            // Truncate long messages
+            const displayMessage = tipData.message.length > 50 ? 
+                tipData.message.substring(0, 50) + '...' : tipData.message;
+            
+            tipItem.innerHTML = `
+                <div class="tip-info">
+                    <div class="tip-amount">${tipData.amount.toFixed(3)} SHM</div>
+                    <div class="tip-message">"${displayMessage}"</div>
+                    <div class="tip-meta">
+                        ${timeAgo} • 
+                        <a href="#" onclick="copyToClipboard('${tipData.txHash}'); return false;" 
+                           style="color: #f69550; text-decoration: none;" 
+                           title="Click to copy transaction hash">
+                            ${tipData.txHash.substring(0, 6)}...${tipData.txHash.substring(tipData.txHash.length - 4)}
+                        </a>
+                        ${tipData.blockNumber ? ` • Block #${tipData.blockNumber}` : ''}
+                    </div>
+                </div>
+            `;
+            
+            const noTipsMessage = document.getElementById('noTipsMessage');
+            noTipsMessage.style.display = 'none';
+            
+            recentTipsList.appendChild(tipItem);
+            
+            // Keep only last 10 tips in UI
+            while (recentTipsList.children.length > 11) { // 10 tips + noTipsMessage
+                const lastChild = recentTipsList.lastChild;
+                if (lastChild && lastChild.className === 'tip-item') {
+                    recentTipsList.removeChild(lastChild);
+                }
+            }
+            
+            // Save to localStorage whenever we add a tip
+            localStorage.setItem('shardeumTips', JSON.stringify(tipHistory.slice(0, 50))); // Keep last 50 tips
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Show temporary feedback
+                const tempDiv = document.createElement('div');
+                tempDiv.textContent = 'Transaction hash copied!';
+                tempDiv.style.cssText = `
+                    position: fixed; top: 20px; right: 20px; background: #4CAF50; color: white;
+                    padding: 10px 20px; border-radius: 5px; z-index: 1000; font-size: 14px;
+                `;
+                document.body.appendChild(tempDiv);
+                setTimeout(() => document.body.removeChild(tempDiv), 2000);
+            }).catch(() => {
+                console.log('Could not copy transaction hash');
+            });
+        }
+
+        function getTimeAgo(timestamp) {
+            const now = Date.now();
+            const diff = now - timestamp;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+            if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+            if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            return 'Just now';
+        }
+
+        function addRecentTip(amount, message, txHash) {
+            // This function is now deprecated - using addTipToUI instead
+            // Keeping for backward compatibility but not used
+        }
+
+        // Real-time network monitoring
+        function monitorNetwork() {
+            const networkStatus = document.getElementById('networkStatus');
+            const gasInfo = document.getElementById('gasInfo');
+            
+            // Check network status every 30 seconds
+            setInterval(async () => {
+                if (provider) {
+                    try {
+                        const network = await provider.getNetwork();
+                        const feeData = await provider.getFeeData();
+                        
+                        // Update network status
+                        networkStatus.textContent = `Connected to Chain ${network.chainId}`;
+                        networkStatus.style.color = '#4CAF50';
+                        
+                        // Calculate approximate gas cost (21000 gas * gas price)
+                        if (feeData.gasPrice) {
+                            const gasCostWei = feeData.gasPrice * 21000n; // 21k gas for simple transfer
+                            const gasCostEth = ethers.formatEther(gasCostWei);
+                            const gasCostUSD = parseFloat(gasCostEth) * 1800; // Assuming $1800 per ETH (adjust as needed)
+                            gasInfo.textContent = `~$${gasCostUSD.toFixed(6)}`;
+                            gasInfo.style.color = '#4CAF50';
+                        }
+                    } catch (error) {
+                        networkStatus.textContent = 'Network Error';
+                        networkStatus.style.color = '#ff4444';
+                        gasInfo.textContent = 'N/A';
+                        gasInfo.style.color = '#ff4444';
+                    }
+                } else {
+                    networkStatus.textContent = 'Not Connected';
+                    networkStatus.style.color = '#999';
+                    gasInfo.textContent = 'N/A';
+                    gasInfo.style.color = '#999';
+                }
+            }, 30000);
+            
+            // Initial check
+            setTimeout(() => {
+                if (provider) {
+                    monitorNetwork();
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
