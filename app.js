@@ -144,25 +144,45 @@ function disconnectWallet() {
 
 // Tip functionality
 async function sendTip() {
-    if (!tipJarContract || !userAddress) {
+    if (!signer || !userAddress) {
         showStatus('Please connect your wallet first', 'error');
         return;
     }
 
     const amount = getSelectedAmount();
     const message = document.getElementById('tipMessage').value || '';
+    const recipientAddress = document.getElementById('recipientAddress').value.trim();
 
     if (!amount || amount <= 0) {
         showStatus('Please enter a valid tip amount', 'error');
         return;
     }
 
+    if (!recipientAddress) {
+        showStatus('Please enter a recipient address', 'error');
+        return;
+    }
+
+    // Validate address format
+    if (!ethers.isAddress(recipientAddress)) {
+        // Check if it might be an ENS name
+        if (recipientAddress.includes('.eth')) {
+            showStatus('ENS names are not supported on Shardeum network', 'error');
+            return;
+        } else {
+            showStatus('Please enter a valid wallet address', 'error');
+            return;
+        }
+    }
+
     try {
         showStatus('Sending tip... Please confirm in MetaMask', 'info');
         
-        const tx = await tipJarContract.sendTip(message, {
+        // Send direct transfer to recipient address
+        const tx = await signer.sendTransaction({
+            to: recipientAddress,
             value: ethers.parseEther(amount.toString()),
-            gasLimit: 100000
+            gasLimit: 21000
         });
         
         showStatus('Transaction submitted! Confirming...', 'info');
@@ -174,6 +194,7 @@ async function sendTip() {
             hash: tx.hash,
             amount: amount,
             message: message,
+            recipient: recipientAddress,
             timestamp: Date.now(),
             from: userAddress,
             type: 'tip'
@@ -183,6 +204,7 @@ async function sendTip() {
         
         // Reset form
         document.getElementById('tipMessage').value = '';
+        document.getElementById('recipientAddress').value = '';
         clearSelectedAmount();
         
         // Update statistics and history
@@ -193,6 +215,8 @@ async function sendTip() {
         console.error('Tip error:', error);
         if (error.code === 4001) {
             showStatus('Transaction cancelled by user', 'info');
+        } else if (error.code === 'INSUFFICIENT_FUNDS') {
+            showStatus('Insufficient SHM balance for this transaction', 'error');
         } else {
             showStatus('Failed to send tip: ' + error.message, 'error');
         }
@@ -564,6 +588,15 @@ function loadTransactionHistory() {
                 typeLabel = 'Campus';
                 details = tx.item ? tx.item.replace('-', ' ') : 'Campus purchase';
                 break;
+            case 'tip':
+            default:
+                if (tx.recipient) {
+                    const shortRecipient = `${tx.recipient.slice(0, 6)}...${tx.recipient.slice(-4)}`;
+                    details = `To: ${shortRecipient}${tx.message ? ` - ${tx.message}` : ''}`;
+                } else {
+                    details = tx.message || 'No message';
+                }
+                break;
         }
         
         return `
@@ -653,6 +686,24 @@ document.addEventListener('DOMContentLoaded', function() {
             const customAmount = document.getElementById('customAmount');
             if (customAmount) {
                 customAmount.value = '';
+            }
+        });
+    });
+    
+    // Preset recipient buttons
+    const presetRecipientButtons = document.querySelectorAll('.preset-recipient');
+    presetRecipientButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const recipientInput = document.getElementById('recipientAddress');
+            if (recipientInput) {
+                recipientInput.value = this.dataset.address;
+                // Add visual feedback
+                this.style.background = '#e6f7ff';
+                this.style.borderColor = '#91d5ff';
+                setTimeout(() => {
+                    this.style.background = '#f0f0f0';
+                    this.style.borderColor = '#ddd';
+                }, 1000);
             }
         });
     });

@@ -775,6 +775,34 @@
 
                     <!-- Tip Interface -->
                     <div id="tipInterface" style="display: none;">
+                        <!-- Recipient Address -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-user" style="margin-right: 5px;"></i>
+                                Send to who?
+                            </label>
+                            <input type="text" id="recipientAddress" class="form-input" placeholder="0x... wallet address or paste recipient" style="font-family: 'Courier New', monospace;">
+                            <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                                <i class="fas fa-info-circle"></i> Enter the recipient's wallet address
+                            </div>
+                            
+                            <!-- Quick recipient options -->
+                            <div style="margin-top: 10px;">
+                                <div style="font-size: 12px; color: #666; margin-bottom: 5px;">Quick options:</div>
+                                <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                                    <button type="button" class="preset-recipient" data-address="0x742d35Cc6634C0532925a3b8D0b4E0a5420C8b71" style="background: #f0f0f0; border: 1px solid #ddd; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">
+                                        Creator Fund
+                                    </button>
+                                    <button type="button" class="preset-recipient" data-address="0x8ba1f109551bD432803012645Hac136c29B24D4C" style="background: #f0f0f0; border: 1px solid #ddd; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">
+                                        Dev Support
+                                    </button>
+                                    <button type="button" onclick="document.getElementById('recipientAddress').value = ''" style="background: #ffe6e6; border: 1px solid #ffcccc; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">
+                                        Clear
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Preset Amounts -->
                         <div class="preset-amounts">
                             <button class="preset-btn" data-amount="0.1">0.1 SHM</button>
